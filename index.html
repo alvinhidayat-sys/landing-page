@@ -362,26 +362,20 @@
       const destination = this.getAttribute('href');
       const title = this.getAttribute('data-title');
 
-      // Open immediately (synchronously) so the browser doesn't block it as a popup
-      window.open(destination, '_blank');
-
       overlayText.textContent = 'Membuka ' + title + '...';
       footerText.classList.add('leaving');
       mainContainer.classList.add('page-fading');
       overlay.classList.add('active');
 
-      // Restore the landing page so it stays available in this tab
       setTimeout(() => {
-        overlay.classList.remove('active');
-        mainContainer.classList.remove('page-fading');
-        footerText.classList.remove('leaving');
+        window.location.href = destination;
       }, 1300);
     });
   });
 </script>
 
 <div style="position:relative;z-index:1;text-align:center;padding-bottom:18px;font-size:0.72rem;color:#7f93bf;letter-spacing:0.5px;">
-  Tautan terbuka di tab baru &mdash; halaman ini tetap terbuka agar Anda bisa kembali kapan saja.
+  Untuk kembali ke portal ini, gunakan tombol Back / kembali pada browser Anda.
 </div>
 
 </body>
