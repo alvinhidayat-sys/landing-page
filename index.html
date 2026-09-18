@@ -16,6 +16,8 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     height: 100%;
+    width: 100%;
+    max-width: 100vw;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: radial-gradient(ellipse at top, var(--bg2) 0%, var(--bg1) 70%);
     color: var(--text-light);
@@ -78,15 +80,21 @@
     margin-top: 22px;
     text-align: center;
     perspective: 600px;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 12px;
   }
   .welcome-text {
-    font-size: clamp(1.6rem, 5vw, 3rem);
+    font-size: clamp(1.3rem, 5vw, 3rem);
     font-weight: 800;
     letter-spacing: 2px;
     display: inline-block;
-    white-space: nowrap;
+    white-space: normal;
+    max-width: 100%;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
-  .welcome-text span {
+  .welcome-text .letter-anim {
     display: inline-block;
     opacity: 0;
     background: linear-gradient(90deg, var(--accent-yellow), #fff8d6, var(--accent-yellow));
@@ -373,14 +381,29 @@
 </div>
 
 <script>
-  // Animate welcome text letter by letter
-  const text = "SELAMAT DATANG DI PORTAL UL MTK";
+  // Animate welcome text letter by letter, wrapping by word so it can break on small screens
+  const text = "PORTAL KINERJA UL MTK";
   const welcomeEl = document.getElementById('welcomeText');
-  [...text].forEach((ch, i) => {
-    const s = document.createElement('span');
-    s.textContent = ch === ' ' ? '\u00A0' : ch;
-    s.style.animationDelay = (0.25 + i * 0.045) + 's';
-    welcomeEl.appendChild(s);
+  const words = text.split(' ');
+  let letterIndex = 0;
+  words.forEach((word, wi) => {
+    const wordSpan = document.createElement('span');
+    wordSpan.style.display = 'inline-block';
+    wordSpan.style.whiteSpace = 'nowrap';
+    [...word].forEach((ch) => {
+      const s = document.createElement('span');
+      s.textContent = ch;
+      s.style.display = 'inline-block';
+      s.style.animationDelay = (0.25 + letterIndex * 0.045) + 's';
+      s.className = 'letter-anim';
+      wordSpan.appendChild(s);
+      letterIndex++;
+    });
+    welcomeEl.appendChild(wordSpan);
+    if (wi < words.length - 1) {
+      welcomeEl.appendChild(document.createTextNode(' '));
+      letterIndex++;
+    }
   });
 
   // Background floating glow particles
