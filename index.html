@@ -118,8 +118,50 @@
     to { opacity: 1; }
   }
 
+  .popup-notice {
+    margin-top: 30px;
+    max-width: 620px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    padding: 12px 20px;
+    border-radius: 14px;
+    background: rgba(227, 6, 19, 0.12);
+    border: 1.5px solid rgba(227, 6, 19, 0.55);
+    color: #ffe9e9;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-align: center;
+    line-height: 1.4;
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: noticeIn 0.7s ease forwards 1.7s, noticeGlow 2.2s ease-in-out infinite 2.4s;
+  }
+  .popup-notice-icon {
+    font-size: 1.05rem;
+    flex-shrink: 0;
+    animation: iconPulse 1.4s ease-in-out infinite;
+  }
+  @keyframes noticeIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes noticeGlow {
+    0%, 100% { box-shadow: 0 0 6px rgba(227,6,19,0.25); border-color: rgba(227,6,19,0.55); }
+    50% { box-shadow: 0 0 22px rgba(227,6,19,0.55); border-color: rgba(227,6,19,0.9); }
+  }
+  @keyframes iconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+  }
+  @media (max-width: 480px) {
+    .popup-notice { font-size: 0.72rem; padding: 10px 14px; }
+  }
+
   .cards {
-    margin-top: 55px;
+    margin-top: 40px;
     display: flex;
     flex-wrap: wrap;
     gap: 45px;
@@ -298,6 +340,11 @@
     <div class="subtitle">Silakan pilih menu di bawah ini</div>
   </div>
 
+  <div class="popup-notice" id="popupNotice">
+    <span class="popup-notice-icon">⚠</span>
+    <span class="popup-notice-text">Non-aktifkan Pop up Blocker atau Gunakan Browser Ms. EDGE Agar Memudahkan Anda Menggunakan Portal Ini</span>
+  </div>
+
   <div class="cards">
     <a href="https://alvinhidayat-sys.github.io/ulmtk_asset/" class="card-link" data-title="Asset Registry">
       <div class="card-img-frame">
@@ -362,20 +409,25 @@
       const destination = this.getAttribute('href');
       const title = this.getAttribute('data-title');
 
+      // Open synchronously (as a direct result of the click) for best compatibility
+      window.open(destination, '_blank');
+
       overlayText.textContent = 'Membuka ' + title + '...';
       footerText.classList.add('leaving');
       mainContainer.classList.add('page-fading');
       overlay.classList.add('active');
 
       setTimeout(() => {
-        window.location.href = destination;
+        overlay.classList.remove('active');
+        mainContainer.classList.remove('page-fading');
+        footerText.classList.remove('leaving');
       }, 1300);
     });
   });
 </script>
 
 <div style="position:relative;z-index:1;text-align:center;padding-bottom:18px;font-size:0.72rem;color:#7f93bf;letter-spacing:0.5px;">
-  Untuk kembali ke portal ini, gunakan tombol Back / kembali pada browser Anda.
+  Untuk kembali ke portal ini, cukup beralih ke tab sebelumnya di browser Anda.
 </div>
 
 </body>
