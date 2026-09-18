@@ -368,11 +368,22 @@
       overlay.classList.add('active');
 
       setTimeout(() => {
-        window.location.href = destination;
+        window.open(destination, '_blank');
       }, 1300);
+
+      // Restore the landing page so it stays available in this tab
+      setTimeout(() => {
+        overlay.classList.remove('active');
+        mainContainer.classList.remove('page-fading');
+        footerText.classList.remove('leaving');
+      }, 2000);
     });
   });
 </script>
+
+<div style="position:relative;z-index:1;text-align:center;padding-bottom:18px;font-size:0.72rem;color:#7f93bf;letter-spacing:0.5px;">
+  Tautan terbuka di tab baru &mdash; halaman ini tetap terbuka agar Anda bisa kembali kapan saja.
+</div>
 
 </body>
 </html>
