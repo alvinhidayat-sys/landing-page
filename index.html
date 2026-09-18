@@ -362,21 +362,20 @@
       const destination = this.getAttribute('href');
       const title = this.getAttribute('data-title');
 
+      // Open immediately (synchronously) so the browser doesn't block it as a popup
+      window.open(destination, '_blank');
+
       overlayText.textContent = 'Membuka ' + title + '...';
       footerText.classList.add('leaving');
       mainContainer.classList.add('page-fading');
       overlay.classList.add('active');
-
-      setTimeout(() => {
-        window.open(destination, '_blank');
-      }, 1300);
 
       // Restore the landing page so it stays available in this tab
       setTimeout(() => {
         overlay.classList.remove('active');
         mainContainer.classList.remove('page-fading');
         footerText.classList.remove('leaving');
-      }, 2000);
+      }, 1300);
     });
   });
 </script>
